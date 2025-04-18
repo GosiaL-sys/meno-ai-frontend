@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menopause Wellness AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Personalized Wellness Plan Generator</h2>
+    <form id="wellnessForm">
+        <label>Age: <input type="number" name="age" required></label><br><br>
+        <label>Weight (kg): <input type="number" name="weight" required></label><br><br>
+        <label>Height (cm): <input type="number" name="height" required></label><br><br>
+        <label>Ethnicity: <input type="text" name="ethnicity"></label><br><br>
+        <label>Symptoms: <input type="text" name="symptoms"></label><br><br>
+        <label>Hormonal Status: <input type="text" name="hormones"></label><br><br>
+        <label>Medication: <input type="text" name="medication"></label><br><br>
+        <label>Diet Preference: <input type="text" name="diet"></label><br><br>
+        <label>Vegetarian? <input type="text" name="vegetarian"></label><br><br>
+        <label>Skincare Concerns: <input type="text" name="skincareConcerns"></label><br><br>
+        <button type="submit">Generate Wellness Plan</button>
+    </form>
+    <textarea id="result" readonly></textarea>
+
+    <script>
+        document.getElementById('wellnessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch('https://meno-ai-app.onrender.com/generate-plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').value = data.plan || JSON.stringify(data);
+            })
+            .catch(error => {
+                document.getElementById('result').value = 'Error: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>
