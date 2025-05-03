@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,46 +8,139 @@
         body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f9f9f9; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         label { display: block; margin-top: 10px; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
         button { width: 100%; padding: 10px; background: #2d89ef; color: white; border: none; border-radius: 4px; font-size: 16px; }
         button:hover { background: #1b5dbf; }
-        pre { white-space: pre-wrap; background: #f4f4f4; padding: 15px; margin-top: 20px; border-radius: 5px; font-size: 14px; }
+        #downloadSection { margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Wellness Plan Generator</h2>
+        <h2>Menopause Wellness Plan Generator</h2>
         <form id="wellnessForm">
-            <label>Age: <input type="text" name="age" required></label>
-            <label>Weight (kg): <input type="text" name="weight" required></label>
-            <label>Height (cm): <input type="text" name="height" required></label>
-            <label>Ethnicity: <input type="text" name="ethnicity" required></label>
-            <label>Symptoms: <input type="text" name="symptoms"></label>
-            <label>Hormonal Status: <input type="text" name="hormones"></label>
-            <label>Medication: <input type="text" name="medication"></label>
-            <label>Diet Preference: <input type="text" name="diet"></label>
-            <label>Are you vegetarian? <input type="text" name="vegetarian"></label>
-            <label>Skincare Concerns: <input type="text" name="skincareConcerns"></label>
+            <label>Age: <input type="number" name="age" required></label>
+            <label>Weight (kg): <input type="number" name="weight" required></label>
+            <label>Height (cm): <input type="number" name="height" required></label>
+
+            <label>Ethnicity:
+                <select name="ethnicity">
+                    <option value="Caucasian">Caucasian</option>
+                    <option value="Black">Black</option>
+                    <option value="Asian">Asian</option>
+                    <option value="Hispanic">Hispanic</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+
+            <label>Symptoms (select all that apply):<br>
+                <input type="checkbox" name="symptoms" value="Hot flashes">Hot flashes<br>
+                <input type="checkbox" name="symptoms" value="Night sweats">Night sweats<br>
+                <input type="checkbox" name="symptoms" value="Mood swings">Mood swings<br>
+                <input type="checkbox" name="symptoms" value="Brain fog">Brain fog<br>
+                <input type="checkbox" name="symptoms" value="Fatigue">Fatigue<br>
+                <input type="checkbox" name="symptoms" value="Dry skin">Dry skin<br>
+                <input type="checkbox" name="symptoms" value="Wrinkles">Wrinkles<br>
+                <input type="checkbox" name="symptoms" value="Hair thinning">Hair thinning<br>
+                <input type="text" name="symptoms" placeholder="Other symptoms">
+            </label>
+
+            <label>Medications:<br>
+                <textarea name="medication" placeholder="e.g. Sertraline, Lisinopril"></textarea>
+            </label>
+
+            <label>Dietary Preference:
+                <select name="diet">
+                    <option value="None">None</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Pescatarian">Pescatarian</option>
+                    <option value="Halal">Halal</option>
+                    <option value="Kosher">Kosher</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+
+            <label>Allergies:
+                <select name="allergies" multiple>
+                    <option value="None">None</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Gluten">Gluten</option>
+                    <option value="Nuts">Nuts</option>
+                    <option value="Shellfish">Shellfish</option>
+                    <option value="Soy">Soy</option>
+                    <option value="Eggs">Eggs</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+
+            <label>Skin condition:
+                <select name="skincareConcerns">
+                    <option value="Dry">Dry</option>
+                    <option value="Oily">Oily</option>
+                    <option value="Mixed">Mixed</option>
+                    <option value="Wrinkles">Wrinkles</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+
+            <label>Preferred activities:<br>
+                <input type="checkbox" name="activity" value="Yoga">Yoga<br>
+                <input type="checkbox" name="activity" value="Swimming">Swimming<br>
+                <input type="checkbox" name="activity" value="Walking">Walking<br>
+                <input type="checkbox" name="activity" value="Jogging">Jogging<br>
+                <input type="text" name="activity" placeholder="Other activities">
+            </label>
+
+            <label>Blood test results (optional):
+                <textarea name="bloodTests" placeholder="e.g. Glucose: 5.2 mmol/L, Vitamin D: 28 ng/mL"></textarea>
+            </label>
+
             <button type="submit">Generate Plan</button>
         </form>
-        <pre id="response"></pre>
+
+        <div id="downloadSection">
+            <p>Your personalized plan is ready:</p>
+            <a id="downloadLink" href="#" download>Download PDF</a>
+        </div>
     </div>
 
     <script>
         document.getElementById('wellnessForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
+            const symptoms = formData.getAll('symptoms');
+            const activity = formData.getAll('activity');
+            const allergies = formData.getAll('allergies');
 
-            const response = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
+            const body = {
+                age: formData.get('age'),
+                weight: formData.get('weight'),
+                height: formData.get('height'),
+                ethnicity: formData.get('ethnicity'),
+                symptoms: symptoms.join(', '),
+                medication: formData.get('medication'),
+                diet: formData.get('diet'),
+                allergies: allergies.join(', '),
+                skincareConcerns: formData.get('skincareConcerns'),
+                activity: activity.join(', '),
+                bloodTests: formData.get('bloodTests')
+            };
+
+            const res = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(body)
             });
 
-            const result = await response.json();
-            document.getElementById('response').innerText = result.plan || result.error;
+            const result = await res.json();
+            if (result.pdf) {
+                const link = document.getElementById('downloadLink');
+                link.href = `https://meno-ai-app.onrender.com/download/${result.pdf}`;
+                link.download = result.pdf;
+                document.getElementById('downloadSection').style.display = 'block';
+            } else {
+                alert('Error: ' + result.error);
+            }
         });
     </script>
 </body>
