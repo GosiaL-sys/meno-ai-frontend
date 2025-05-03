@@ -143,42 +143,45 @@
   </div>
 
   <script>
-    document.getElementById('wellnessForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = {};
-      formData.forEach((value, key) => {
-        if (data[key]) {
-          data[key] += ', ' + value;
-        } else {
-          data[key] = value;
-        }
-      });
+  document.getElementById('wellnessForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = this;
+    const data = {};
 
-      try {
-        const response = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (result.pdf && result.pdf.startsWith("data:application/pdf;base64,")) {
-          const link = document.createElement('a');
-          link.href = result.pdf;
-          link.download = "wellness_plan.pdf";
-          link.click();
-          document.getElementById('result').value = "✅ PDF downloaded successfully.";
-        } else if (result.plan) {
-          document.getElementById('result').value = result.plan;
-        } else {
-          document.getElementById('result').value = "No PDF or plan returned.";
-        }
-      } catch (err) {
-        document.getElementById('result').value = "Error: " + err.message;
+    // Collect normal inputs
+    Array.from(form.elements).forEach(el => {
+      if (el.tagName === "SELECT" && el.multiple) {
+        const selected = Array.from(el.selectedOptions).map(option => option.value);
+        data[el.name] = selected.join(', ');
+      } else if (el.type !== 'submit') {
+        data[el.name] = el.value;
       }
     });
-  </script>
+
+    try {
+      const response = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.pdf && result.pdf.startsWith("data:application/pdf;base64,")) {
+        const link = document.createElement('a');
+        link.href = result.pdf;
+        link.download = "wellness_plan.pdf";
+        link.click();
+        document.getElementById('result').value = "✅ PDF downloaded successfully.";
+      } else if (result.plan) {
+        document.getElementById('result').value = result.plan;
+      } else {
+        document.getElementById('result').value = "No PDF or plan returned.";
+      }
+    } catch (err) {
+      document.getElementById('result').value = "Error: " + err.message;
+    }
+  });
+</script>
 </body>
 </html>
