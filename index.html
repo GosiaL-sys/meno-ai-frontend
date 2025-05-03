@@ -1,145 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Menopause Wellness Assistant</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f9f9f9; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 100%; padding: 10px; background: #2d89ef; color: white; border: none; border-radius: 4px; font-size: 16px; }
-        button:hover { background: #1b5dbf; }
-        #downloadSection { margin-top: 20px; display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 45%;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #2d89ef;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1b5dbf;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Menopause Wellness Plan Generator</h2>
+        <h2>Generate Your Wellness Plan</h2>
         <form id="wellnessForm">
-            <label>Age: <input type="number" name="age" required></label>
-            <label>Weight (kg): <input type="number" name="weight" required></label>
-            <label>Height (cm): <input type="number" name="height" required></label>
+            <label>Age:</label>
+            <input type="text" name="age" required />
 
-            <label>Ethnicity:
-                <select name="ethnicity">
-                    <option value="Caucasian">Caucasian</option>
-                    <option value="Black">Black</option>
-                    <option value="Asian">Asian</option>
-                    <option value="Hispanic">Hispanic</option>
-                    <option value="Other">Other</option>
-                </select>
-            </label>
+            <label>Weight (kg):</label>
+            <input type="text" name="weight" required />
 
-            <label>Symptoms (select all that apply):<br>
-                <input type="checkbox" name="symptoms" value="Hot flashes">Hot flashes<br>
-                <input type="checkbox" name="symptoms" value="Night sweats">Night sweats<br>
-                <input type="checkbox" name="symptoms" value="Mood swings">Mood swings<br>
-                <input type="checkbox" name="symptoms" value="Brain fog">Brain fog<br>
-                <input type="checkbox" name="symptoms" value="Fatigue">Fatigue<br>
-                <input type="checkbox" name="symptoms" value="Dry skin">Dry skin<br>
-                <input type="checkbox" name="symptoms" value="Wrinkles">Wrinkles<br>
-                <input type="checkbox" name="symptoms" value="Hair thinning">Hair thinning<br>
-                <input type="text" name="symptoms" placeholder="Other symptoms">
-            </label>
+            <label>Height (cm):</label>
+            <input type="text" name="height" required />
 
-            <label>Medications:<br>
-                <textarea name="medication" placeholder="e.g. Sertraline, Lisinopril"></textarea>
-            </label>
+            <label>Ethnicity:</label>
+            <select name="ethnicity" required>
+                <option value="">Select one</option>
+                <option>Caucasian</option>
+                <option>Asian</option>
+                <option>African descent</option>
+                <option>Hispanic</option>
+                <option>Middle Eastern</option>
+                <option>Other</option>
+            </select>
 
-            <label>Dietary Preference:
-                <select name="diet">
-                    <option value="None">None</option>
-                    <option value="Vegetarian">Vegetarian</option>
-                    <option value="Vegan">Vegan</option>
-                    <option value="Pescatarian">Pescatarian</option>
-                    <option value="Halal">Halal</option>
-                    <option value="Kosher">Kosher</option>
-                    <option value="Other">Other</option>
-                </select>
-            </label>
+            <label>Symptoms (select all that apply):</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="symptoms" value="Hot flashes" /> Hot flashes</div>
+                <div class="checkbox-item"><input type="checkbox" name="symptoms" value="Night sweats" /> Night sweats</div>
+                <div class="checkbox-item"><input type="checkbox" name="symptoms" value="Mood swings" /> Mood swings</div>
+                <div class="checkbox-item"><input type="checkbox" name="symptoms" value="Brain fog" /> Brain fog</div>
+                <div class="checkbox-item"><input type="checkbox" name="symptoms" value="Fatigue" /> Fatigue</div>
+            </div>
 
-            <label>Allergies:
-                <select name="allergies" multiple>
-                    <option value="None">None</option>
-                    <option value="Dairy">Dairy</option>
-                    <option value="Gluten">Gluten</option>
-                    <option value="Nuts">Nuts</option>
-                    <option value="Shellfish">Shellfish</option>
-                    <option value="Soy">Soy</option>
-                    <option value="Eggs">Eggs</option>
-                    <option value="Other">Other</option>
-                </select>
-            </label>
+            <label>Skincare Concerns:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="skincareConcerns" value="Dry skin" /> Dry skin</div>
+                <div class="checkbox-item"><input type="checkbox" name="skincareConcerns" value="Wrinkles" /> Wrinkles</div>
+                <div class="checkbox-item"><input type="checkbox" name="skincareConcerns" value="Hair thinning" /> Hair thinning</div>
+            </div>
 
-            <label>Skin condition:
-                <select name="skincareConcerns">
-                    <option value="Dry">Dry</option>
-                    <option value="Oily">Oily</option>
-                    <option value="Mixed">Mixed</option>
-                    <option value="Wrinkles">Wrinkles</option>
-                    <option value="Other">Other</option>
-                </select>
-            </label>
+            <label>Other Skin Issues (optional):</label>
+            <input type="text" name="skincareOther" />
 
-            <label>Preferred activities:<br>
-                <input type="checkbox" name="activity" value="Yoga">Yoga<br>
-                <input type="checkbox" name="activity" value="Swimming">Swimming<br>
-                <input type="checkbox" name="activity" value="Walking">Walking<br>
-                <input type="checkbox" name="activity" value="Jogging">Jogging<br>
-                <input type="text" name="activity" placeholder="Other activities">
-            </label>
+            <label>Medication:</label>
+            <input type="text" name="medication" />
 
-            <label>Blood test results (optional):
-                <textarea name="bloodTests" placeholder="e.g. Glucose: 5.2 mmol/L, Vitamin D: 28 ng/mL"></textarea>
-            </label>
+            <label>Diet Preference:</label>
+            <select name="diet">
+                <option value="">None</option>
+                <option>Vegan</option>
+                <option>Vegetarian</option>
+                <option>Pescatarian</option>
+                <option>Halal</option>
+            </select>
+
+            <label>Allergies:</label>
+            <input type="text" name="allergies" />
+
+            <label>Activity Preferences:</label>
+            <textarea name="activity" rows="2"></textarea>
+
+            <label>Blood Test (optional):</label>
+            <textarea name="bloodTests" rows="2"></textarea>
 
             <button type="submit">Generate Plan</button>
         </form>
-
-        <div id="downloadSection">
-            <p>Your personalized plan is ready:</p>
-            <a id="downloadLink" href="#" download>Download PDF</a>
-        </div>
     </div>
 
     <script>
         document.getElementById('wellnessForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
             const formData = new FormData(this);
-            const symptoms = formData.getAll('symptoms');
-            const activity = formData.getAll('activity');
-            const allergies = formData.getAll('allergies');
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    data[key] += ', ' + value;
+                } else {
+                    data[key] = value;
+                }
+            }
 
-            const body = {
-                age: formData.get('age'),
-                weight: formData.get('weight'),
-                height: formData.get('height'),
-                ethnicity: formData.get('ethnicity'),
-                symptoms: symptoms.join(', '),
-                medication: formData.get('medication'),
-                diet: formData.get('diet'),
-                allergies: allergies.join(', '),
-                skincareConcerns: formData.get('skincareConcerns'),
-                activity: activity.join(', '),
-                bloodTests: formData.get('bloodTests')
-            };
+            try {
+                const res = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
 
-            const res = await fetch('https://meno-ai-app.onrender.com/generate-plan', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-
-            const result = await res.json();
-            if (result.pdf) {
-                const link = document.getElementById('downloadLink');
-                link.href = `https://meno-ai-app.onrender.com/download/${result.pdf}`;
-                link.download = result.pdf;
-                document.getElementById('downloadSection').style.display = 'block';
-            } else {
-                alert('Error: ' + result.error);
+                const result = await res.json();
+                if (res.ok && result.pdf) {
+                    window.location.href = 'https://meno-ai-app.onrender.com/download/' + result.pdf;
+                } else {
+                    alert('Error: ' + (result.error || 'No PDF returned'));
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
             }
         });
     </script>
